@@ -1,15 +1,258 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<title>My News Website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的 Python 爬蟲新聞網站</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft JhengHei", Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .top-bar .info {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .reload-btn {
+      background: #2a5298;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .reload-btn:hover {
+      background: #1e3c72;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .news-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .news-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    .news-content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .news-title {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: #1e3c72;
+    }
+
+    .news-meta {
+      font-size: 0.85rem;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .news-desc {
+      flex-grow: 1;
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 15px;
+    }
+
+    .news-link {
+      text-decoration: none;
+      background: #2a5298;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .news-link:hover {
+      background: #1e3c72;
+    }
+
+    .loading,
+    .error,
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 1.1rem;
+      color: #666;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      margin-top: 30px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .news-image {
+        height: 180px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <header>
+    <h1>Python 爬蟲新聞網站</h1>
+    <p>自動讀取 news.json，將爬到的新聞資料顯示在網站上</p>
+  </header>
 
-<h1>新聞列表</h1>
+  <div class="container">
+    <div class="top-bar">
+      <div class="info" id="newsInfo">正在載入新聞資料...</div>
+      <button class="reload-btn" onclick="loadNews()">重新載入</button>
+    </div>
 
-<p>歡迎來到我的 GitHub 網站</p>
+    <div id="newsContainer" class="loading">載入中，請稍候...</div>
+  </div>
 
+  <footer>
+    © 2026 我的 Python 爬蟲新聞網站 | 使用 HTML + CSS + JavaScript 製作
+  </footer>
+
+  <script>
+    async function loadNews() {
+      const newsContainer = document.getElementById("newsContainer");
+      const newsInfo = document.getElementById("newsInfo");
+
+      newsContainer.className = "loading";
+      newsContainer.innerHTML = "載入中，請稍候...";
+      newsInfo.textContent = "正在讀取 news.json ...";
+
+      try {
+        const response = await fetch("news.json");
+
+        if (!response.ok) {
+          throw new Error("無法讀取 news.json，請確認檔案存在");
+        }
+
+        const data = await response.json();
+
+        // 支援兩種格式：
+        // 1. data 是陣列
+        // 2. data.articles 是陣列
+        const newsList = Array.isArray(data) ? data : data.articles;
+
+        if (!newsList || newsList.length === 0) {
+          newsContainer.className = "empty";
+          newsContainer.innerHTML = "目前沒有新聞資料";
+          newsInfo.textContent = "共 0 筆新聞";
+          return;
+        }
+
+        newsInfo.textContent = `共載入 ${newsList.length} 筆新聞`;
+
+        newsContainer.className = "news-grid";
+        newsContainer.innerHTML = "";
+
+        newsList.forEach((news, index) => {
+          const title = news.title || "沒有標題";
+          const description = news.description || news.summary || "沒有摘要內容";
+          const url = news.url || news.link || "#";
+          const image = news.image || news.image_url || news.urlToImage || "https://via.placeholder.com/600x400?text=No+Image";
+          const source = news.source || news.author || "未知來源";
+          const date = news.date || news.publishedAt || "無日期";
+
+          const card = document.createElement("div");
+          card.className = "news-card";
+
+          card.innerHTML = `
+            <img class="news-image" src="${image}" alt="新聞圖片" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+            <div class="news-content">
+              <h2 class="news-title">${index + 1}. ${title}</h2>
+              <div class="news-meta">來源：${source} | 日期：${date}</div>
+              <p class="news-desc">${description}</p>
+              <a class="news-link" href="${url}" target="_blank">閱讀完整新聞</a>
+            </div>
+          `;
+
+          newsContainer.appendChild(card);
+        });
+      } catch (error) {
+        newsContainer.className = "error";
+        newsContainer.innerHTML = `
+          <p>讀取新聞失敗</p>
+          <p style="margin-top:10px; color:#c0392b;">${error.message}</p>
+        `;
+        newsInfo.textContent = "載入失敗";
+      }
+    }
+
+    loadNews();
+  </script>
 </body>
 </html>

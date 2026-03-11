@@ -1,34 +1,18 @@
-{
-    "news": [
-        "Tony Hoare has died (computationalcomplexity.org)",
-        "U+237C ⍼ Is Azimuth (ionathan.ch)",
-        "Zig – Type Resolution Redesign and Language Changes (ziglang.org)",
-        "Cloudflare crawl endpoint (cloudflare.com)",
-        "Agents that run while I sleep (claudecodecamp.com)",
-        "Yann LeCun raises $1B to build AI that understands the physical world (wired.com)",
-        "SSH Secret Menu (twitter.com/rebane2001)",
-        "Launch HN: RunAnywhere (YC W26) – Faster AI Inference on Apple Silicon (github.com/runanywhereai)",
-        "Universal vaccine against respiratory infections and allergens (stanford.edu)",
-        "Debian decides not to decide on AI-generated contributions (lwn.net)",
-        "Mesh over Bluetooth LE, TCP, or Reticulum (github.com/torlando-tech)",
-        "Writing my own text editor, and daily-driving it (jsbarretto.com)",
-        "EQT eyes potential $6B sale of Linux pioneer SUSE, sources say (reuters.com)",
-        "FFmpeg-over-IP – Connect to remote FFmpeg servers (github.com/steelbrain)",
-        "Invoker Commands API (developer.mozilla.org)",
-        "Meta acquires Moltbook (axios.com)",
-        "Online age-verification tools for child safety are surveilling adults (cnbc.com)",
-        "Bippy: React Internals Toolkit (bippy.dev)",
-        "Intel Demos Chip to Compute with Encrypted Data (ieee.org)",
-        "Exploring the ocean with Raspberry Pi–powered marine robots (raspberrypi.com)",
-        "Launch HN: Didit (YC W26) – Stripe for Identity Verification",
-        "RISC-V Is Sloooow (juszkiewicz.com.pl)",
-        "Roblox is minting teen millionaires (bloomberg.com)",
-        "After outages, Amazon to make senior engineers sign off on AI-assisted changes (arstechnica.com)",
-        "Show HN: How I topped the HuggingFace open LLM leaderboard on two gaming GPUs (dnhkng.github.io)",
-        "Rebasing in Magit (entropicthoughts.com)",
-        "Tell HN: Apple development certificate server seems down?",
-        "Networking with agents: Put them in the right conversations with Tailscale (firetiger.com)",
-        "The Gervais Principle, or the Office According to “The Office” (2009) (ribbonfarm.com)",
-        "Open Weights isn't Open Training (workshoplabs.ai)"
-    ]
-}
+[
+  {
+    "title": "Python 爬蟲教學",
+    "description": "使用 Python requests 與 BeautifulSoup 建立新聞爬蟲網站。",
+    "url": "https://www.python.org",
+    "image": "https://picsum.photos/600/400?random=1",
+    "source": "Python News",
+    "date": "2026-03-11"
+  },
+  {
+    "title": "AI 產業快速成長",
+    "description": "AI 技術持續推動全球科技產業發展。",
+    "url": "https://openai.com",
+    "image": "https://picsum.photos/600/400?random=2",
+    "source": "Tech News",
+    "date": "2026-03-11"
+  }
+]
